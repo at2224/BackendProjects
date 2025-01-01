@@ -1,0 +1,18 @@
+# this rest file emulates browsser/user
+
+### TEST GET / WEBSITE
+GET http://localhost:8080
+
+### TEST GET /dashboard WEBSITE
+GET http://localhost:8080/dashboard
+
+### DATA ENDPOINT
+GET http://localhost:8080/api/data
+
+### DATA ENDPOINT ADD USER
+POST http://localhost:8080/api/data
+Content-Type: application/json
+
+{
+    "name": "gilgamesh"
+}
