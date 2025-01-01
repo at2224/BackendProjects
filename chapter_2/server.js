@@ -21,7 +21,7 @@ const app = express(); // server app
 const PORT = 8080;
 // app.listen(PORT, () => {})
 
-
+// database
 let data = ['james']
 
 // Middleware - protective layer before we hit endpoinds to expect to receive json data
@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
         <body style = "background: pink;color:blue;">
             <h1> DATA: </h1>
             <p> ${JSON.stringify(data)} </p>
-            
+            <a href = "/dashboard"> Dashboard </a>
         </body>
             `);
 });
@@ -57,14 +57,19 @@ app.get('/', (req, res) => {
 // A: Yes
 
 app.get('/dashboard', (req, res) => {
-    res.send('<h1> Dashboard </h1>');
+    res.send(`
+        <body>
+        <h1> Dashboard </h1>
+        <a href = "/"> home </a>
+        </body>
+    `);
 });
 
 // API endpoints (client requesting data)
 // CRUD create, read update, delete
 
 app.get('/api/data', (req, res) => {
-    res.send(data)
+    res.statusCode(200).send(data)
 });
 
 app.post('/api/data', (req, res) => {
@@ -74,5 +79,11 @@ app.post('/api/data', (req, res) => {
     data.push(newEntry.name);
     res.sendStatus(201);
 });
+
+app.delete('/api/data', (req, res) => {
+    data.pop();
+    console.log("Deleted element off end of array");
+    res.sendStatus(203);
+})
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`)); // app listens for incoming requests at IP address specifically at the port. goes at end of code
