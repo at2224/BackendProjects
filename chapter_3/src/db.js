@@ -1,9 +1,9 @@
 import { DatabaseSync } from 'node:sqlite'
-const db = new DatabaseSync(':memory'); // db off of local memory
+const db = new DatabaseSync(':memory:'); // db off of local memory
 
 //Execute SQL statements
 db.exec(`
-    CREATE TABLE user (
+    CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
         password TEXT
@@ -16,8 +16,9 @@ db.exec(`
         user_id INTEGER,
         task TEXT,
         completed BOOLEAN DEFAULT 0,
-        FOREIGN KEY(user_id) REFERENCES user(id)
+        FOREIGN KEY(user_id) REFERENCES users (id)
     )
     `);
 
-    
+
+export default db 

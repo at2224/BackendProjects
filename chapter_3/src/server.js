@@ -1,6 +1,9 @@
 import express from 'express'; // more modern importing syntax. add `"type": "module",` to package.json
 import path, {dirname} from 'path';
 import { fileURLToPath } from 'url';
+import authRoutes from './routes/authRoutes.js'
+import todoRoutes from './routes/todoRoutes.js'
+
 
 // Q: When to destructure imports?
 // A: When you only need one export (coding package) from an import module
@@ -23,6 +26,10 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Routes -> go to other files
+app.use('/auth', authRoutes);
+app.use('/todos', todoRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server has started on PORT: ${PORT}`);
