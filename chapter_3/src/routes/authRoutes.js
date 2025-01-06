@@ -23,7 +23,7 @@ router.post('/register', (req, res) => {
         // default to do for user
         const defaultTodo = `Hello! Add your first todo!`;
         const insertTodo = db.prepare(`INSERT INTO todos (user_id, task) VALUES (?, ?)`);
-        insertTodo.run(result.lastInsertRowid, defaultTodo);
+        insertTodo.run(result.lastInsertRowid, defaultTodo); // use run to not return rows
 
         // create a token
         const token = jwt.sign({id: result.lastInsertRowid}, process.env.JWT_SECRET, {expiresIn: '24h'});
@@ -39,6 +39,19 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     // pass is encrypted - encrypt login password and check against encrypted pass in db
+    const {username, password} = req.body;
+
+    try {
+        const getUser = db.prepare('SELECT * FROM users WHERE username = ?');
+        const user = getUser.get(username); // use get to return a row
+
+        if (!user) {return res.status(404).send({message: "user not found"})}
+        
+    } catch (err) {
+        console.log(err.message);
+        res.sendStatus(503);
+    }
+
 });
 
 export default router;
